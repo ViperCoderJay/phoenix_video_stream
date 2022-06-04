@@ -1,0 +1,42 @@
+<div>
+  <h2><%= @title %></h2>
+
+  <.form
+    let={f}
+    for={@changeset}
+    id="video-form"
+    phx-target={@myself}
+    multipart
+    phx-change="validate"
+    phx-submit="save">
+
+    <%= if @changeset.action do %>
+      <div class="alert alert-danger">
+        <p>Oops, something went wrong! Please check the errors below.</p>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= label f, :title, class: "control-label" %>
+      <%= text_input f, :title, required: true, class: "form-control" %>
+      <%= error_tag f, :title %>
+    </div>
+  
+    <div class="form-group">
+      <%= label f, :video_file, "Video", class: "control-label" %>
+      <%= live_file_input @uploads.video_file, class: "form-control" %>
+      <%= for entry <- @uploads.video_file.entries do %>
+        <%= for err <- upload_errors(@uploads.video_file, entry) do %>
+          <p class="alert alert-danger"><%= friendly_error(err) %></p>
+        <% end %>
+        <p>
+          <progress value={entry.progress} max="100"> <%= entry.progress %>% </progress>
+        </p>
+      <% end %>
+    </div>
+  
+    <div class="form-group">
+      <%= submit "Save", phx_disable_with: "Saving...", class: "btn btn-primary" %>
+    </div>
+  </.form>
+</div>

@@ -1,0 +1,20 @@
+<h1>Show Video</h1>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @video.title %>
+  </li>
+
+  <video id="my-video" class="video-js" controls preload="none" width="640" height="264" data-setup="{}">
+    <source src={Routes.watch_path(@conn, :show, @video)} type={@video.content_type}>
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a web browser that
+      <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+    </p>
+  </video>
+
+</ul>
+
+<span><%= live_redirect "Back", to: Routes.video_index_path(@socket, :index) %></span>
